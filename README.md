@@ -2,6 +2,8 @@
 
 A front-end cache and reverse proxy config, based on `nginx`, with Tor thrown in for good measure.
 
+Please treat this as a blueprint for your deployment.
+
 ## Idea
 
 The basic idea is to have a minimal front-end-cache config that can be spun-up (or indeed, that's just running) on a public server and is able to cache and serve a WordPress website effectively.
@@ -58,4 +60,5 @@ But we did look at `varnish`, and we found [it does not support SSL and has no i
 
 # ToDo
 
-This needs to be documented better, both using comments in code, and using this README file, and the one in the `services/etc/nginx` subdirectory.
+ - This needs to be documented better, both using comments in code, and using this README file, and the one in the `services/etc/nginx` subdirectory.
+ - Also, cleanups in the `nginx` config, there is a lot of unnecessary repetition
