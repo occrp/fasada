@@ -1,0 +1,25 @@
+nginx:
+    build: https://github.com/occrp/watchful-nginx.git
+    ports:
+        - "80:80"
+        - "443:443"
+    volumes:
+        - "./services/etc/nginx/:/etc/nginx/:ro"          # config
+        - "./tests/:/opt/tests/:ro"                       # tests
+        - "/srv/data/secrets/nginx/:/etc/ssl/nginx/"      # this is where dhparam goes; maybe we should use a data container for this
+        - "/srv/data/cache/fasada/:/srv/data/cache/nginx" # cache; maybe we should use a data container for this?
+        - "/srv/logs/fasada/:/srv/logs/nginx/"            # logs
+        # letsencrypt
+        - "/srv/data/secrets/letsencrypt/archive/:/srv/data/secrets/letsencrypt/archive/:ro" # LetsEncrypt certificate store, containing all the certs ever issued
+        - "/srv/data/secrets/letsencrypt/live/:/srv/data/secrets/letsencrypt/live/:ro"       # LetsEncrypt live certificate store, containing symlinks to the most current certificates for a given domain
+        
+tor:
+    image: vpetersson/torrelay
+    user: debian-tor
+    volumes:
+        - "./services/etc/tor/:/etc/tor/:ro"
+        - "/srv/data/secrets/tor/:/var/lib/tor/web/" # apparently tor has to have RW acess to this directory;
+                                                     # TODO make private_key read-only?
+    links:
+        - nginx
+    command: ["/usr/sbin/tor", "-f", "/etc/tor/torrc"]

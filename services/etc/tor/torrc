@@ -1,0 +1,11 @@
+ORPort 0
+SocksPort 0
+SocksPolicy reject *
+RunAsDaemon 0
+DataDirectory /var/lib/tor/
+Exitpolicy reject *:*
+Nickname ExampleName
+ContactInfo The Webmaster <webmaster@example.com>
+
+HiddenServiceDir /var/lib/tor/web/
+HiddenServicePort 80 nginx:80
